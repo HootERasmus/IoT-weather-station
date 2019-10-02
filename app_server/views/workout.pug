@@ -1,0 +1,51 @@
+extends layout
+
+block content
+    .row 
+        .h2 #{workout.name}
+    .row
+        table.table.table-striped
+            thead.table-dark
+                tr
+                    th Exercise
+                    th Description
+                    th Set
+                    th Reps/time
+                    th 
+            tbody
+            each exercise in workout.exercises
+                tr(type='button' onclick='/')
+                    td #{exercise.name}
+                    td #{exercise.description}
+                    td #{exercise.set}
+                    td #{exercise.reps}
+                    td 
+                        .row
+                            form(action='/workout/exercise/remove', method='POST')
+                                input(type='hidden', name='workoutId', value=workout._id)
+                                input(type='hidden', name='exerciseId', value=exercise._id)
+                                button.btn.btn-danger(type="submit") X
+    .row
+        button.btn.btn-success(type="button" data-toggle="modal" data-target="#addExerciseModal") Add exercise
+
+    .modal.fade(id="addExerciseModal", tabindex="-1", role="dialog", aria-labelledby="addExercise" aria-hidden="true")
+        .modal-dialog
+            .modal-content
+                .modal-header
+                    h4.modal-title(id="addExercise") Add exercise
+                    button.close(type="button",data-dismiss="modal")
+                        span(aria-hidden="true") &times;
+                        span.sr-only Close
+                .modal-body
+                    form(action="/workout/exercise/add" method="POST")
+                        div.form-group
+                            input.form-control(type='text', name='name', value='', placeholder='Name')
+                        div.form-group
+                            input.form-control(type='text', name='description', value='', placeholder='Description')
+                        div.form-group
+                            input.form-control(type='number', name='set' , placeholder='Set')
+                        div.form-group
+                            input.form-control(type='text', name='reps', value='', placeholder='Reps')
+                            input(type='hidden', name='id', value=workout._id)
+                        div.form-group
+                            button.btn.btn-success(type='submit') Add exercise

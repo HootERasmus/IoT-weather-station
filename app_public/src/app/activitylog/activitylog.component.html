@@ -1,0 +1,24 @@
+<h4>
+  {{exercise.name}}
+</h4>
+<div *ngIf="formError" class="alert alert-danger" role="alert">
+  {{ formError }}
+</div>
+<form (ngSubmit)="onActivitySubmit()">
+  <textarea [(ngModel)]="newActivityLog.log" class="mb-2 mr-sm-2 mb-sm-0 form-control" name="log" type="text" required="required">
+  </textarea>
+    <button class="btn btn-success" type="submit">
+    Add log
+  </button>
+</form>
+<p>
+  {{message}}
+</p>
+<div *ngFor="let activityLog of exercise.activityLogs" class="card text-white bg-info">
+  <div class="card-header">
+    {{activityLog.time | date: 'HH:mm dd-MM-yyyy'}}
+  </div>
+  <div class="card-body">    
+      {{activityLog.log}}
+  </div>
+</div>
